@@ -5,7 +5,8 @@ TERMS OF USE - PYRO
 
 Open source under the BSD License.
 
-Copyright © 2007-2009 Eric Poirier [Nibman] and Turbulent Media inc. 
+Copyright © 2007-2009 Eric Poirier [Nibman] 
+Copyright © 2008-2009 Turbulent Media inc. 
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -1491,7 +1492,7 @@ package ca.turbulent.media
 			
 			dispatchEvent(new PyroEvent(PyroEvent.METADATA_RECEIVED, bubbleEvents, cancelableEvents));
 		}
-		s
+		
 		/**
 		 * 
 		 * @param textData
