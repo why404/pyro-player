@@ -43,10 +43,11 @@ package ca.turbulent.media
 	import flash.system.Capabilities;
 	import flash.system.System;
 	import flash.utils.*;
+
 	
 	/**
 	* Pyro
-	* Version 1.1.2
+	* Version 1.1.3
 	*
 	*  @author Eric Poirier 2008-2009, epoirier@turbulent.ca || nibman@gmail.com
 	* 	  
@@ -600,7 +601,7 @@ package ca.turbulent.media
 		/**
 		*	Indicates main pyro version beeing used. 
 		*/		
-		public static const VERSION								:String 			= "1.1.2";
+		public static const VERSION								:String 			= "1.1.3";
 		
 		/*
 		 ------------------------------------------------------------------------------------------------ >>
@@ -843,6 +844,8 @@ package ca.turbulent.media
 		protected var videoPropsValid							:Boolean			= false;
 		protected var videoRectangle							:Rectangle;
 		protected var volumeCache								:Number 			= 1;
+		protected var waitingForMetaData						:Boolean 			= false;
+		
 		
 		/*
 		 ------------------------------------------------------------------------------------------------ >>
@@ -1094,12 +1097,17 @@ package ca.turbulent.media
 					
 					reset();
 					_nStream.play(fileURL);
-					trace("autoPlay="+autoPlay+" timeoffset="+_timeOffset);
 					if (!autoPlay && this.timeOffset == 0) 
 					{
-						trace("stop it now");
-						seek(0);
-						pause(); 
+						if (metadataReceived)
+						{
+							seek(0);
+							pause(); 
+						}
+						else
+						{
+							waitingForMetaData = true;
+						}	
 					}
 				}	
 				else
@@ -1377,7 +1385,11 @@ package ca.turbulent.media
                 
                 case "NetStream.Play.Start":
              
-               	if(autoPlay) { setStatus(Pyro.STATUS_PLAYING); }
+               	if(autoPlay) 
+               	{ 
+               		setStatus(Pyro.STATUS_PLAYING); 
+               	}
+               
                 startTime = getTimer();
                 adjustSize();
                 
@@ -1482,6 +1494,12 @@ package ca.turbulent.media
 		 */		
 		public function onMetaData(info:Object, ...rest):void
 		{
+			if (waitingForMetaData)
+			{
+				waitingForMetaData = false;
+				seek(0)
+				pause();	
+			}
 			_metadataReceived = true;
 			_metadata = info;	
 			if (rest) { _metadata['rest'] = rest; }
@@ -1506,6 +1524,14 @@ package ca.turbulent.media
 		{
 			dispatchEvent(new TextDataEvent(TextDataEvent.TEXT_DATA_RECEIVED, textData, bubbleEvents, cancelableEvents));
 		}
+		
+		
+		public function onXMPData(infoObject:Object):void 
+        { 
+        	trace("onXMPData");
+        	
+        }
+		
 		
 		/**
 		 * 
@@ -1938,11 +1964,17 @@ package ca.turbulent.media
 		 */	
 		public function pause():void 
 		{ 
-			trace("trying to pause");
-			setStatus(Pyro.STATUS_PAUSED);
-			_nStream.pause(); 
-			dispatchEvent(new PyroEvent(PyroEvent.PAUSED, bubbleEvents, cancelableEvents));
-		}
+			try
+			{
+				setStatus(Pyro.STATUS_PAUSED);
+				_nStream.pause(); 
+				dispatchEvent(new PyroEvent(PyroEvent.PAUSED, bubbleEvents, cancelableEvents));
+			}
+			catch(err:Error)
+			{
+				
+			}
+		}	
 		
 		/**
 		 * @param offset
