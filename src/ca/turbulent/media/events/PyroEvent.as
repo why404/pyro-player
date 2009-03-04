@@ -24,6 +24,7 @@ package ca.turbulent.media.events
 		public static const UNMUTED							:String				= "unmutedEvent";
 		public static const UNPAUSED						:String				= "unpausedEvent";
 		public static const VOLUME_UPDATE					:String				= "volumeUpdate";
+		public static const XMP_DATA_RECEIVED				:String 			= "XMPDataReceived";
 		
 		public var eventType								:String				= "";
 		
