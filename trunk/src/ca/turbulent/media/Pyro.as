@@ -601,7 +601,6 @@ package ca.turbulent.media
 		/**
 		*	Indicates main pyro version beeing used. 
 		*/		
-		public static const VERSION								:String 			= "1.1.4";
 		
 		/*
 		 ------------------------------------------------------------------------------------------------ >>
@@ -869,7 +868,7 @@ package ca.turbulent.media
 		 * 
 		 * 
 		 * */					
-		public function Pyro(_width:Number=undefined, _height:Number=undefined)
+		public function Pyro(_width:Number=undefined, _height:Number=undefined, stageEvtMechanics:String="allOn")
 		{
 			super();
 			setStatus(Pyro.STATUS_INITIALIZING);
@@ -886,6 +885,8 @@ package ca.turbulent.media
 			metadataCheckTimer.addEventListener(TimerEvent.TIMER_COMPLETE, metadataCheckDone, captureEvents, eventsPriority, useWeakReferences);
 			
 			checkSizeTimer.addEventListener(TimerEvent.TIMER, checkForSize, captureEvents, eventsPriority, useWeakReferences);
+			
+			stageEventMechanics = stageEvtMechanics;
 			
 			if (stageEventMechanics == Pyro.STAGE_EVENTS_MECHANICS_ALL_ON)
 			{		
