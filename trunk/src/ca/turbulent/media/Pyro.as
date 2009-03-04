@@ -47,7 +47,7 @@ package ca.turbulent.media
 	
 	/**
 	* Pyro
-	* Version 1.1.3
+	* Version 1.1.4
 	*
 	*  @author Eric Poirier 2008-2009, epoirier@turbulent.ca || nibman@gmail.com
 	* 	  
@@ -601,7 +601,7 @@ package ca.turbulent.media
 		/**
 		*	Indicates main pyro version beeing used. 
 		*/		
-		public static const VERSION								:String 			= "1.1.3";
+		public static const VERSION								:String 			= "1.1.4";
 		
 		/*
 		 ------------------------------------------------------------------------------------------------ >>
@@ -815,6 +815,8 @@ package ca.turbulent.media
 		protected var _video									:Video;
 		protected var _videoDataRate							:Number				= 300;
 		protected var _volume									:Number				= 1;
+		protected var _XMPDataReceived							:Boolean			= false;
+		protected var _XMPDataProxy								:XMPProxy;
 		
 		/*
 		 ------------------------------------------------------------------------------------------------ >>
@@ -1528,9 +1530,15 @@ package ca.turbulent.media
 		
 		public function onXMPData(infoObject:Object):void 
         { 
-        	trace("onXMPData");
-        	
+        	this._XMPDataProxy = new XMPProxy(infoObject);
+        	_XMPDataReceived = true;
+			dispatchEvent(new PyroEvent(PyroEvent.XMP_DATA_RECEIVED, bubbleEvents, cancelableEvents));
         }
+		
+		public function onImageData(imageData:Object):void
+		{
+			dispatchEvent(new ImageDataEvent(ImageDataEvent.IMAGE_DATA_RECEIVED, imageData, bubbleEvents, cancelableEvents));
+		}
 		
 		
 		/**
@@ -1587,6 +1595,7 @@ package ca.turbulent.media
        	 		else
 				{
 					videoPropsValid = true;
+					trace("force resize from adjust size with metaInfo")
 					forceResize(metadata['width'], metadata['height'], maintainAspectRatio, scaleMode);		
 				}
 			}
@@ -1594,6 +1603,7 @@ package ca.turbulent.media
 			{
 				forceResize(_requestedWidth, _requestedHeight, maintainAspectRatio, scaleMode);
 			}
+		
 		}
 		
 		/**
@@ -1618,11 +1628,13 @@ package ca.turbulent.media
 		{
 			if (videoWidth <= _requestedWidth)
 			{
+				trace("Align = "+hAlignMode + " videoWidth="+video.width);
 				switch (hAlignMode)
 				{
 					case Pyro.ALIGN_HORIZONTAL_CENTER:
 					default:
 					_video.x = ((_requestedWidth/2) - (video.width/2));
+					
 					break;
 					
 					case Pyro.ALIGN_HORIZONTAL_RIGHT:
@@ -1690,6 +1702,7 @@ package ca.turbulent.media
 		
 		protected function forceResize(w:Number, h:Number, aspectRatio:Boolean, sMode:String):void
 		{
+			trace("force resize");
 			var localWidth:Number = w;
 			var localHeight:Number = h;
 			var scaleFactor:Number;
@@ -3027,10 +3040,16 @@ package ca.turbulent.media
 		 */		
 		public function get volume():Number { return _volume; }
 		
+		public function get XMPDataProxy():XMPProxy { return this._XMPDataProxy; }
+		public function get XMPDataReceived():Boolean { return this._XMPDataReceived; }
+		public function get XMPDataCuePoints():Array { return this._XMPDataProxy.cuePoints; }
+		
 		override public function get width():Number { return _requestedWidth; }
 		override public function set width(w:Number):void { resize(w, _requestedHeight); }
 		override public function get height():Number { return _requestedHeight; }
 		override public function set height(h:Number):void { resize(_requestedWidth, h); }
+
+		
 
 		/*
 		 ------------------------------------------------------------------------------------------------ >>
@@ -3392,5 +3411,38 @@ internal class NetConnectionClient
 	{
 		
 	}			
+}
 
+import ca.turbulent.media.Pyro;
+internal class XMPProxy
+{
+	public var rawXMP			:Object;
+	public var rawXMPXML		:XML;
+	
+	public var numCuePoints		:int = 0;
+	public var cuePoints		:Array = new Array();
+	public var cueFrameRate		:Number = 0;
+	
+	public var xmpDM			:Namespace = new Namespace("http://ns.adobe.com/xmp/1.0/DynamicMedia/");
+	public var rdf				:Namespace = new Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#");  
+	
+	public function XMPProxy(XMPData:Object):void
+	{
+		rawXMP = XMPData;
+		rawXMPXML = new XML(XMPData.data);
+
+        var frameRateString:String = rawXMPXML..xmpDM::Tracks..rdf::Description.@xmpDM::frameRate;
+        cueFrameRate = Number(frameRateString.substr(1, frameRateString.length));
+ 
+        var cuePointXMLList:XMLList = rawXMPXML..xmpDM::markers.rdf::Seq.rdf::li;
+        numCuePoints = cuePointXMLList.length();
+        
+        for (var i:int=0; i<numCuePoints; i++) 
+        { 
+        	var cueXML:XML = cuePointXMLList[i];
+        	cuePoints.push({name:cueXML.@xmpDM::name, type:cueXML.@xmpDM::cuePointType, time:cueXML.@xmpDM::startTime/cueFrameRate});
+        } 
+		
+		
+	}	
 }
