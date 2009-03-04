@@ -47,7 +47,7 @@ package ca.turbulent.media
 	
 	/**
 	* Pyro
-	* Version 1.1.4
+	* Version 1.1.5
 	*
 	*  @author Eric Poirier 2008-2009, epoirier@turbulent.ca || nibman@gmail.com
 	* 	  
@@ -71,8 +71,10 @@ package ca.turbulent.media
 	*	@usage 
 	*	Using Pyro is quick and easy. Here is a simple exemple.  
 	*	Meant to work in a Flash player context (AS projects or Flash IDE projects):
-	* 	1. Create a Pyro instance, insert width then height as arguments and add your pyro instance 
-	* 	to the child list, as follows:   
+	* 	1. Create a Pyro instance, insert width and height as dimension arguments,
+	*	the 3rd paramater here is the stageEventMechanics mode you wish to use. In most regular flash uses, you will not 
+	* 	need to touch this, and the defaut 'allOn' value is passed (Pyro.STAGE_EVENT_MECHANICS_ALL_ON). 
+	* 	Then and add your pyro instance to the child list, as follows:   
 	* 	<code>
 	*	var pyroInstance:Pyro = new Pyro(320, 240);
 	* 	addChild(pyroInstance);
@@ -601,7 +603,7 @@ package ca.turbulent.media
 		/**
 		*	Indicates main pyro version beeing used. 
 		*/		
-		
+		public static const VERSION								:String 			= "1.1.5";
 		/*
 		 ------------------------------------------------------------------------------------------------ >>
 		 ------------------------------------------------------------------------------------------------ >>
@@ -866,7 +868,8 @@ package ca.turbulent.media
 		 * This means that pyro will wait for metadata dimension tag values for setting width and height, 
 		 * and in the case of absent metadata dimension tags, will set width and height with internal defaul values (320x240). 
 		 * 
-		 * 
+		 * Requires another stageEvtMechanics value if your Pyro instance is meant to play outside of standard natural flash context. 
+		 * Otherwise, 'allOn' is passed as default.   
 		 * */					
 		public function Pyro(_width:Number=undefined, _height:Number=undefined, stageEvtMechanics:String="allOn")
 		{
