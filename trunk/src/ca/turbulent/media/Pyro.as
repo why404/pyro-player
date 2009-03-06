@@ -979,7 +979,7 @@ package ca.turbulent.media
 			}
 		}
 		
-		protected function kill():void
+		public function kill():void
 		{
 			if (dying)
 				return;
