@@ -1,6 +1,6 @@
-People who have participated in this project. 
+<strong>People who have participated in this project. </strong>
 
-MAIN AUTHOR:
+<strong>MAIN AUTHOR:</strong>
 Eric Poirier 
 http://gronour.com
 
@@ -9,8 +9,7 @@ epoirier@grounour.com
 e@gronour.com
 
 
-
-CONSTANT CREATIVE AND GENERAL DIRECTION INPUTS:
+<strong>CREATIVE AND GENERAL DIRECTION INPUTS:</strong>
 Benoit Beauséjour
 http://agit8.turbulent.ca
 http://turbulent.ca
