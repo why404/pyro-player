@@ -1,7 +1,7 @@
 <strong>People who have participated in this project. </strong>
 
 <strong>MAIN AUTHOR:</strong>
-Eric Poirier<br> 
+Pyro has been developped by Eric Poirier<br> 
 http://gronour.com<br>
 
 nibman@gmail.com<br> 
