@@ -14,12 +14,12 @@ With Pyro you won’t waste precious production time on tucktaping and gluing to
 Times of jerking around with netStream and netConnection related stuff, keeping up to date with new file formats, adding new callback methods to match certain types of streams, parsing seemingly good URLs for playback in different streaming servers, resizing and aligning correctly, all pretty much gone.  Thanks Pyro ! 
 
 
-<strong> Can I use Pyro in Flex ? </strong>
+<strong> Can I use Pyro in Flex ? </strong><br>
 Yes
 
-<strong> Can I use Pyro as a Papervision or Away3D material.</strong>
+<strong> Can I use Pyro as a Papervision or Away3D material.</strong><br>
 Yes
 
-<strong>How much does it weight</strong>
-The final weight, once in a swf, is something close to 14 kbs. 
+<strong>How much does it weight</strong><br>
+The final weight, once in a swf, is something close to 14 kb. 
 Might be a bit less or a bit more, all depending on what event class you'll be using in your code.  
