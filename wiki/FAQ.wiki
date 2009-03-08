@@ -1,4 +1,4 @@
-Frequently asked questions about pyro.
+<img src="http://agit8.turbulent.ca/bwp/wp-content/2009/03/pyrologo.png" />
 
 <strong>Why no UI  ? Mental issues… ?</strong>
 
