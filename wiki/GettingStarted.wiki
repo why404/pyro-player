@@ -1,0 +1,5 @@
+Coming up later on today (March 8th 2009)
+
+Getting ready to use Pyro in various contexts. 
+
+You can use pyro in a few different context lets examine which one and how to set up pyro so that you dont get errors all over the place and bad words will fly out of your mouth. 
