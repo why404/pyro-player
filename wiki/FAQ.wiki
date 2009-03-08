@@ -6,7 +6,7 @@ This is the question that comes up the most when peer developers hear about this
 
 With as little experience as I have with building video players in flash, I’ve come to notice that my two main time wasters on doing such projects were:
 
-<li>Recoding-copy-pasting the same snippets of code for netStream, netConnection, resizing and buffering and applying it to the project.</li>
+<\t><li>Recoding-copy-pasting the same snippets of code for netStream, netConnection, resizing and buffering and applying it to the project.</li>
 <li>While using a third party skinnable player, figuring out how to make it behave and look exactly how I need it.<li>
 
 With Pyro you won’t waste precious production time on tucktaping and gluing together bloated pieces of code. Nor will you spend time trying to understand someone else’s code. Pyro was coded with those two main reasons in mind at all time. The API gives you more control than you could wish for for playing videos and lets you either build your own singular skin everytime or empowers you to create your own skinnable player with whatever feature you would like.
