@@ -20,5 +20,11 @@ Yes
 <strong>How much does it weight</strong><br>
 The final weight, once in a swf, for now is something close to 15 kiloBytes. 
 Might be a bit less or a bit more, all depending on what Pyro related event class you'll be using in your code.  
-<br><br>
+<br><br><br>
+*Is there any documentation for this*<br>
+Yes, the online, not finished but pretty complete, docs is online on my personal site located at:<br>
+http://gronour.com/pyro/doc/html/index.html
+<br>Also, you will find the documentation in the downloadable zip package and under version control. 
+<br><br> 
+
 <img src="http://agit8.turbulent.ca/bwp/wp-content/2009/03/pyrologo3.png" />
