@@ -48,7 +48,7 @@ package
 
 That's pretty much it for starters... Now that was easy wasn't it ? :)
 
-So in order to load a new video file into your project, one would call the playVideoURL with the targetted url as param. All it does is call pyro's omnipotent play method with the url. If the specified file exists and is a playable video format for flash, your video should be playing.
+So in order to load a new video file into a project, one would call the playVideoURL with the targetted url as param. All it does is call pyro's omnipotent play method with the url. If the specified file exists and is a playable video format for flash, your video should be playing.
 
 Now there is a lot more to Pyro, but this just the getting started section, and we've done just that. 
 
