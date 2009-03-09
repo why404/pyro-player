@@ -48,7 +48,9 @@ package
 
 That's pretty much it for starters... Now that was easy wasn't it ? :)
 
-In the above PyroExemple class, in order to load and play a new video file, one would call the playVideoURL method with the targetted url as param. All that function does is call Pyro's omnipotent play method with the url. If the specified file exists and is a playable video format for flash, your video should be playing.
+In the above PyroExemple class, we first instanciate pyroInstance with a width of 640 and a height of 480. Those set the dimensions of the canvas the video is boxed-in.<br>
+In order to load and play a new video file, one would call the playVideoURL method with the targetted url as param. All that function does is call Pyro's omnipotent play method with the url. If the specified file exists and is a playable video format for flash, your video should be playing.
+<br>,,Yes this method is totally superfluous, you could just call Pyro's play method directly. Its an exemple, just so you start.,,  
 
 Now there is a lot more to Pyro, but this just the getting started section, and we've done just that. 
 
