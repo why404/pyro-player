@@ -47,8 +47,42 @@ package
 }
 }}}
 
-Thats pretty much it for starters... That was easy wasn't it ? :)
+Thats pretty much it for starters... That was easy wasn't it ? :) So in order to load a new video file into your project, call the playVideoURL with the targetted url as param. All it does is call pyro's omnipotent play method with the url. Now there is a lot more to Pyro, but this just the getting started section, and we've done just that. 
+
+If all you are doing is pure actionscript/flash projects without doing any Flex or using 3D frameworks (or other weird tentacular frameworks) you might want to skip whats coming up and keep on reading other pages of the wiki. 
+
      
+*2) Using Pyro in flex*
+
+Now for Flex, there is quite a few ways you could integrate Pyro, however, I recommend wrapping a component around your Pyro instance. Here is how I would code such a thing, lets call it our PyroML.mxml component:
+
+{{{
+<?xml version="1.0" encoding="utf-8"?>
+<mx:UIComponent xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="insertPyroInstance()">
+	
+	<mx:Script>
+		<![CDATA[
+		
+			import ca.turbulent.media.Pyro;
+			import ca.turbulent.media.events.PyroEvent;
+			
+			public var pyro	:Pyro;
+			
+			public function insertPyroInstance(e:*=null):void
+			{
+				pyro = new Pyro(width, height);
+				pyro.killOnRemoval = false;
+				this.addChild(pyro);
+			}	
+			
+		]]>
+	</mx:Script>
+	
+</mx:UIComponent>
+}}}
+
+Notice the usage of pyro property *killOnRemoval*. This is particularly usefulll if you use states a lot. If this property is left to its default true value, you will end up killing your pyro instance everytime you leave a state that embeds a PyroML in its hierarchy. I strongly recommend setting *pyroInstance.killOnRemoval=false* whenever ypur dealing with Flex integration.    
+
 
   
     
