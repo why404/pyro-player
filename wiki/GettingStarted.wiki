@@ -11,7 +11,7 @@ Now, set up your classpath references so that you can import our ca.turbulent.me
 
 Also, I'd like to mention that you will absolutely need to know how to code Actionscript, and AS3 more specifically. If you dont know how to code AS3 and don't have a clue of what I'm taling about in the following explanations, use another flash video player such as JW. I'm not here to show anyone how to code or setup AS projects. Not that I'm elitist in anyways, I just didnt build Pyro in the purpose of showing how actionscript works.
 
-
+<p><p>
 *1) Flash IDE - actionscript AS3 projects*
 This easily covers more than 80 percent of pyro usage. Its the most sought after use for a class like this one.
 
