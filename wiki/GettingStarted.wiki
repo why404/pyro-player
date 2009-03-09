@@ -49,10 +49,9 @@ package
 Thats pretty much it for starters... That was easy wasn't it ? :) So in order to load a new video file into your project, call the playVideoURL with the targetted url as param. All it does is call pyro's omnipotent play method with the url. Now there is a lot more to Pyro, but this just the getting started section, and we've done just that. 
 
 If all you are doing is pure actionscript/flash projects without doing any Flex or using 3D frameworks (or other weird tentacular frameworks) you might want to skip whats coming up and keep on reading other pages of the wiki. 
-<br><br>
-   
 
-  
+<br><br><br>
+    
 *2) Using Pyro in flex*
 Now for Flex, there is quite a few ways you could integrate Pyro, however, I recommend wrapping a component around your Pyro instance. Here is how I would code such a thing, lets call it our PyroML.mxml component:
 
@@ -83,7 +82,7 @@ Now for Flex, there is quite a few ways you could integrate Pyro, however, I rec
 
 Notice the usage of pyro property *killOnRemoval*. This is particularly usefulll if you use states a lot. If this property is left to its default true value, you will end up killing your pyro instance everytime you leave a state that embeds a PyroML in its hierarchy. I strongly recommend setting *pyroInstance.killOnRemoval=false* whenever ypur dealing with Flex integration.    
 
-<br><br>
+<br><br><br>
 
 *3) Using a pyro instance as material in 3D frameworks such as Away3D or Papervision*
 Well, I'm not going to show you how to build video materials for 3d frameworks, that has been covered plenty of times on many forums. Considerating Pyro is a flash.display.Sprite extension should be enough for anyone with proper knowledge of how materials work to know what to do here. 
