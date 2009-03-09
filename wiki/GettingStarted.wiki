@@ -13,7 +13,7 @@ Also, I'd like to mention that *you absolutely need to know how to code Actionsc
 
 <br><br>
 *1) Flash IDE - actionscript AS3 projects*<br>
-This easily covers more than 80 percent of Pyro usage. Its the most sought after use for a class like this one.
+This covers the vast majority of Pyro usage. Its the most sought after use for a class like this one.
 
 First, I'll demonstrate how to use a Pyro.as class instance inside your classes. (Later down the road, how to extend the Pyro class will be tackled).
 
