@@ -95,7 +95,9 @@ What you will need to know about here is the stageEventMechanics Pyro property. 
 
 Pyro's constructor holds a secret 3rd parameter that toggles stage listeners on and off, so on instanciation do the following to prevent stage Events activity inside Pyro:
 
-{{{ pyroInstance = new Pyro(640, 480, Pyro.STAGE_EVENTS_MECHANICS_ALL_OFF); }}}   
+{{{
+pyroInstance = new Pyro(640, 480, Pyro.STAGE_EVENTS_MECHANICS_ALL_OFF);
+}}} 
 
 Voilà, you should have a Pyro instance set as a material and rendering properly in a 3d environment. 
  
