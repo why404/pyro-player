@@ -92,9 +92,9 @@ I strongly recommend setting *pyroInstance.killOnRemoval=false* whenever your de
 *3) Using a pyro instance as material in 3D frameworks such as Away3D or Papervision*<br>
 I'm not going to show you how to build video materials for 3d frameworks, that has been covered plenty of times on many sites. Knowing Pyro is a flash.display.Sprite extension should be enough for anyone with proper knowledge of how materials work to know what to do here. 
 
-What you will need to know about here is the stageEventMechanics Pyro property. Pyro has stage listeners set up here and there, and if left in action, will cause a crash at runtime or at compile time. Luckily, this is easy to bypass.
+What you need to know about is the stageEventMechanics property. Pyro has stage listeners set up here and there, and if left in action, will cause a crash at runtime or at compile time. Luckily, this is easy to bypass.
 
-Pyro's constructor holds a secret 3rd parameter that toggles stage listeners on and off, so on instanciation do the following to prevent stage Events activity inside Pyro:
+Pyro's constructor holds a 3rd parameter that toggles stage listeners on and off, so on instanciation do the following to prevent stage Events activity inside Pyro:
 
 {{{
 pyroInstance = new Pyro(640, 480, Pyro.STAGE_EVENTS_MECHANICS_ALL_OFF);
