@@ -105,7 +105,7 @@ pyroInstance = new Pyro(640, 480, Pyro.STAGE_EVENTS_MECHANICS_ALL_OFF);
 Voilà, you should have a Pyro instance ready to be set as a material. Rendering should work a-ok.  
  
 
-Online, not finished but pretty complete, docs is online on my personal site located at:
+Online, not finished but pretty complete, docs is online on my personal site located at:<br>
 http://gronour.com/pyro/doc/html/index.html
 
   
