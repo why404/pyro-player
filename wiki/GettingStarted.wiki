@@ -12,7 +12,7 @@ Now, set up your classpath references so that you can import our ca.turbulent.me
 Also, I'd like to mention that you will absolutely need to know how to code Actionscript, and AS3 more specifically. If you dont know how to code AS3 and don't have a clue of what I'm taling about in the following explanations, use another flash video player such as JW. I'm not here to show anyone how to code or setup AS projects. Not that I'm elitist in anyways, I just didnt build Pyro in the purpose of showing how actionscript works.
 
 <br><br>
-*1) Flash IDE - actionscript AS3 projects*
+*1) Flash IDE - actionscript AS3 projects*<br>
 This easily covers more than 80 percent of pyro usage. Its the most sought after use for a class like this one.
 
 I will first demonstrate how to use a Pyro.as class instance inside your classes. (I will later down the road set up an exemple where I extend the Pyro class instead).
@@ -52,7 +52,7 @@ If all you are doing is pure actionscript/flash projects without doing any Flex 
 
 <br><br><br>
     
-*2) Using Pyro in flex*
+*2) Using Pyro in flex*<br>
 Now for Flex, there is quite a few ways you could integrate Pyro, however, I recommend wrapping a component around your Pyro instance. Here is how I would code such a thing, lets call it our PyroML.mxml component:
 
 {{{
@@ -84,7 +84,7 @@ Notice the usage of pyro property *killOnRemoval*. This is particularly usefulll
 
 <br><br><br>
 
-*3) Using a pyro instance as material in 3D frameworks such as Away3D or Papervision*
+*3) Using a pyro instance as material in 3D frameworks such as Away3D or Papervision*<br>
 Well, I'm not going to show you how to build video materials for 3d frameworks, that has been covered plenty of times on many forums. Considerating Pyro is a flash.display.Sprite extension should be enough for anyone with proper knowledge of how materials work to know what to do here. 
 
 What you will need to know about here is the stageEventMechanics Pyro property. Pyro has stage listeners set up here and there, and if if left in action, will probably cause a major crash at runtime or even worst, at compile time. Luckily, this is easy to bypass and here is how to do it. 
