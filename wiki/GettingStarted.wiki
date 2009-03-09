@@ -3,7 +3,7 @@
 You can use Pyro in a few different contexts lets examine which ones and how to set up Pyro so that you dont get errors popping everywhere. 
 
 
-Ok, it doesnt matter if your using FlexBuilder, Eclipse, the Flash IDE itself, Flash Develop or TextMate, or a combination of the Flash IDE and external files, Pyro works the same.<br><br>
+It doesnt matter if your using FlexBuilder, Eclipse, the Flash IDE itself, Flash Develop or TextMate, or a combination of the Flash IDE and external files, Pyro works the same.<br><br>
   
 First, start by either checking out the SVN version, or by downloading the package, that sure will help a lot ;).<br>
  
@@ -48,7 +48,7 @@ package
 
 That's pretty much it for starters... Now that was easy wasn't it ? :)
 
-So in order to load a new video file into a project, one would call the playVideoURL with the targetted url as param. All it does is call pyro's omnipotent play method with the url. If the specified file exists and is a playable video format for flash, your video should be playing.
+In the above PyroExemple class, in order to load and play a new video file, one would call the playVideoURL method with the targetted url as param. All that function does is call Pyro's omnipotent play method with the url. If the specified file exists and is a playable video format for flash, your video should be playing.
 
 Now there is a lot more to Pyro, but this just the getting started section, and we've done just that. 
 
