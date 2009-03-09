@@ -9,7 +9,7 @@ First, start by either checking out the SVN version, or by downloading the packa
  
 Now, set up your classpath references so that you can import our ca.turbulent.media package easily. 
 
-Also, I'd like to mention that you will absolutely need to know how to code Actionscript, and AS3 more specifically. If you dont know how to code AS3 and don't have a clue of what I'm taling about in the following explanations, use another flash video player such as JW. I'm not here to show anyone how to code or setup AS projects. Not that I'm elitist in anyways, I just didnt build Pyro in the purpose of showing how actionscript works.
+Also, I'd like to mention that *you will absolutely need to know how to code Actionscript, and AS3 more specifically*. If you dont know how to code AS3 and don't have a clue of what I'm talking about in the following explanations, use another flash video player such as JW. I'm not here to show anyone how to code or setup AS projects. Not that I'm elitist in anyways, I just didnt build Pyro in the purpose of showing how actionscript works.
 
 <br><br>
 *1) Flash IDE - actionscript AS3 projects*<br>
