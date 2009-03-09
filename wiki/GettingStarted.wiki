@@ -1,19 +1,19 @@
 *Getting ready to use Pyro in various contexts.* 
 
-You can use pyro in a few different contexts lets examine which ones and how to set up pyro so that you dont get errors popping everywhere. 
+You can use Pyro in a few different contexts lets examine which ones and how to set up Pyro so that you dont get errors popping everywhere. 
 
 
-Ok, it doesnt matter if your using FlexBuilder, Eclipse, the Flash IDE itself, Flash Develop or TextMate, or a combination of the Flash IDE and external files, pyro works the same.
+Ok, it doesnt matter if your using FlexBuilder, Eclipse, the Flash IDE itself, Flash Develop or TextMate, or a combination of the Flash IDE and external files, Pyro works the same.
   
 First, start by either checking out the SVN version, or by downloading the package, that sure will help a lot ;).
  
 Now, set up your classpath references so that you can import our ca.turbulent.media package easily. 
 
-Also, I'd like to mention that *you will absolutely need to know how to code Actionscript, and AS3 more specifically*. If you dont know how to code AS3 and don't have a clue of what I'm talking about in the following explanations, use another flash video player such as JW. I'm not here to show anyone how to code or setup AS projects. Not that I'm elitist in anyways, I just didnt build Pyro in the purpose of showing how actionscript works.
+Also, I'd like to mention that *you will absolutely need to know how to code Actionscript, and AS3 more specifically*. If you dont know how to code AS3 and don't have a clue of what I'm talking about in the following explanations, use another flash video player such as JW player. I'm not here to show anyone how to code or setup AS projects. Not that I'm elitist in anyways, I just didn't build Pyro in the purpose of showing how actionscript works.
 
 <br><br>
 *1) Flash IDE - actionscript AS3 projects*<br>
-This easily covers more than 80 percent of pyro usage. Its the most sought after use for a class like this one.
+This easily covers more than 80 percent of Pyro usage. Its the most sought after use for a class like this one.
 
 I will first demonstrate how to use a Pyro.as class instance inside your classes. (I will later down the road set up an exemple where I extend the Pyro class instead).
 
@@ -46,14 +46,18 @@ package
 }
 }}}
 
-Thats pretty much it for starters... That was easy wasn't it ? :) So in order to load a new video file into your project, call the playVideoURL with the targetted url as param. All it does is call pyro's omnipotent play method with the url. Now there is a lot more to Pyro, but this just the getting started section, and we've done just that. 
+Thats pretty much it for starters... That was easy wasn't it ? :)
 
-If all you are doing is pure actionscript/flash projects without doing any Flex or using 3D frameworks (or other weird tentacular frameworks) you might want to skip whats coming up and keep on reading other pages of the wiki. 
+So in order to load a new video file into your project, call the playVideoURL with the targetted url as param. All it does is call pyro's omnipotent play method with the url. If the specified file exists and is a playable video format for flash, your video should be playing.
+
+Now there is a lot more to Pyro, but this just the getting started section, and we've done just that. 
+
+If all you are doing is pure actionscript/flash projects without doing any Flex, nor will you be using 3D frameworks (or other weird tentacular frameworks), you might want to skip whats coming and carry on to other topics. 
 
 <br><br><br>
     
 *2) Using Pyro in flex*<br>
-Now for Flex, there is quite a few ways you could integrate Pyro, however, I recommend wrapping a component around your Pyro instance. Here is how I would code such a thing, lets call it our PyroML.mxml component:
+Now for Flex, there is quite a few ways you can embed Pyro, however, I recommend wrapping a component around your Pyro instance. Here is how I would code such a thing, lets call it our PyroML.mxml component:
 
 {{{
 <?xml version="1.0" encoding="utf-8"?>
@@ -80,16 +84,16 @@ Now for Flex, there is quite a few ways you could integrate Pyro, however, I rec
 </mx:UIComponent>
 }}}
 
-Notice the usage of pyro property *killOnRemoval*. This is particularly usefulll if you use states a lot. If this property is left to its default true value, you will end up killing your pyro instance everytime you leave a state that embeds a PyroML in its hierarchy. I strongly recommend setting *pyroInstance.killOnRemoval=false* whenever your dealing with Flex integration.    
+Notice the usage of pyro property *killOnRemoval*. This is usefulll if you use states mechanics. If left to its default true value, you will end up killing your pyro instance everytime you leave a state that contains a PyroML in its hierarchy. I strongly recommend setting *pyroInstance.killOnRemoval=false* whenever your dealing with Flex integration.    
 
 <br><br><br>
 
 *3) Using a pyro instance as material in 3D frameworks such as Away3D or Papervision*<br>
-Well, I'm not going to show you how to build video materials for 3d frameworks, that has been covered plenty of times on many forums. Considerating Pyro is a flash.display.Sprite extension should be enough for anyone with proper knowledge of how materials work to know what to do here. 
+I'm not going to show you how to build video materials for 3d frameworks, that has been covered plenty of times on many sites. Knowing Pyro is a flash.display.Sprite extension should be enough for anyone with proper knowledge of how materials work to know what to do here. 
 
-What you will need to know about here is the stageEventMechanics Pyro property. Pyro has stage listeners set up here and there, and if if left in action, will probably cause a major crash at runtime or even worst, at compile time. Luckily, this is easy to bypass and here is how to do it. 
+What you will need to know about here is the stageEventMechanics Pyro property. Pyro has stage listeners set up here and there, and if left in action, will cause a crash at runtime or at compile time. Luckily, this is easy to bypass.
 
-Pyro's constructor holds a secret 3rd parameter that toggles stage listeners on and off, so on instanciation do the following:
+Pyro's constructor holds a secret 3rd parameter that toggles stage listeners on and off, so on instanciation do the following to prevent stage Events activity inside Pyro:
 
 {{{ pyroInstance = new Pyro(640, 480, Pyro.STAGE_EVENTS_MECHANICS_ALL_OFF); }}}   
 
