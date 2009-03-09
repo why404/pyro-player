@@ -80,7 +80,7 @@ Now for Flex, there is quite a few ways you could integrate Pyro, however, I rec
 </mx:UIComponent>
 }}}
 
-Notice the usage of pyro property *killOnRemoval*. This is particularly usefulll if you use states a lot. If this property is left to its default true value, you will end up killing your pyro instance everytime you leave a state that embeds a PyroML in its hierarchy. I strongly recommend setting *pyroInstance.killOnRemoval=false* whenever ypur dealing with Flex integration.    
+Notice the usage of pyro property *killOnRemoval*. This is particularly usefulll if you use states a lot. If this property is left to its default true value, you will end up killing your pyro instance everytime you leave a state that embeds a PyroML in its hierarchy. I strongly recommend setting *pyroInstance.killOnRemoval=false* whenever your dealing with Flex integration.    
 
 <br><br><br>
 
