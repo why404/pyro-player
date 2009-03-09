@@ -9,15 +9,15 @@ First, start by either checking out the SVN version, or by downloading the packa
  
 Now, set up your classpath references so that you can import our ca.turbulent.media package easily. 
 
-Also, I'd like to mention that *you will absolutely need to know how to code Actionscript, and AS3 more specifically*. If you dont know how to code AS3 and don't have a clue of what I'm talking about in the following explanations, use another flash video player such as JW player. I'm not here to show anyone how to code or setup AS projects. Not that I'm elitist in anyways, I just didn't build Pyro in the purpose of showing how actionscript works.
+Also, I'd like to mention that *you absolutely need to know how to code Actionscript, and AS3 more specifically*. If you dont know how to program AS3 and don't have a clue of what I'm talking about in the following explanations, use another flash video player such as JW player. I'm not here to show anyone how to code or setup AS projects. Not that I'm elitist in anyways, I just didn't build Pyro in the purpose of showing how actionscript works.
 
 <br><br>
 *1) Flash IDE - actionscript AS3 projects*<br>
 This easily covers more than 80 percent of Pyro usage. Its the most sought after use for a class like this one.
 
-I will first demonstrate how to use a Pyro.as class instance inside your classes. (I will later down the road set up an exemple where I extend the Pyro class instead).
+First, I'll demonstrate how to use a Pyro.as class instance inside your classes. (Later down the road, how to extend the Pyro class will be tackled).
 
-I will be building a small class named PyroExemple (as a flash.display.Sprite extension) just as a theoric exemple.
+We will be building a small class named PyroExemple (as a flash.display.Sprite extension) just as a theoric exemple.
 
 So without further adue, here it goes:
 
@@ -46,9 +46,9 @@ package
 }
 }}}
 
-Thats pretty much it for starters... That was easy wasn't it ? :)
+That's pretty much it for starters... Now that was easy wasn't it ? :)
 
-So in order to load a new video file into your project, call the playVideoURL with the targetted url as param. All it does is call pyro's omnipotent play method with the url. If the specified file exists and is a playable video format for flash, your video should be playing.
+So in order to load a new video file into your project, one would call the playVideoURL with the targetted url as param. All it does is call pyro's omnipotent play method with the url. If the specified file exists and is a playable video format for flash, your video should be playing.
 
 Now there is a lot more to Pyro, but this just the getting started section, and we've done just that. 
 
