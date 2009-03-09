@@ -1,5 +1,3 @@
-<img src="http://agit8.turbulent.ca/bwp/wp-content/2009/03/pyrologo1.png" />
-
 <strong>Why no UI  ?</strong>
 
 This is the question that comes up the most. Let me explain.
@@ -23,3 +21,5 @@ Yes
 <strong>How much does it weight</strong><br>
 The final weight, once in a swf, is something close to 14 kb. 
 Might be a bit less or a bit more, all depending on what Pyro related event class you'll be using in your code.  
+<br>
+<img src="http://agit8.turbulent.ca/bwp/wp-content/2009/03/pyrologo1.png" />
