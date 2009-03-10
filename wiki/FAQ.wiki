@@ -26,5 +26,3 @@ Yes, the online, not finished but pretty complete, docs is live on my personal s
 http://gronour.com/pyro/doc/html/index.html
 <br>You will also find this documentation in the downloadable zip package and under version control. 
 <br><br> 
-
-<img src="http://agit8.turbulent.ca/bwp/wp-content/2009/03/pyrologo3.png" />
