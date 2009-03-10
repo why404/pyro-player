@@ -1242,6 +1242,8 @@ package ca.turbulent.media
 				_nStream.bufferTime = _dualStartBufferTime;	
 				
 			_video.attachNetStream(_nStream);
+			_video.smoothing = _smoothing;
+			if (_deblocking) _video.deblocking = _deblocking;
 			_nStream.soundTransform	= new SoundTransform(_volume, 0);
         	_nStream.addEventListener(NetStatusEvent.NET_STATUS, onStreamStatus, captureEvents, eventsPriority, useWeakReferences);
         	_nStream.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler, captureEvents, eventsPriority, useWeakReferences);
