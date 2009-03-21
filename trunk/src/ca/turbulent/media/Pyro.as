@@ -774,7 +774,7 @@ package ca.turbulent.media
 		protected var _audioDataRate							:Number 			= 64;
 		protected var _bufferTime								:Number 			= 2;
 		protected var _bufferEmptiedOccurences					:Number 			= 0;	
-		protected var _bufferingMode							:String				= Pyro.BUFFERING_MODE_DUAL_TRESHOLD;
+		protected var _bufferingMode							:String				= Pyro.BUFFERING_MODE_SINGLE_TRESHOLD;
 		protected var _bufferEmptiedMaxOccurences				:Number 			= 2;				
 		protected var _dualStartBufferTime						:Number 			= 1;
 		protected var _dualStreamBufferTime						:Number				= 15;
@@ -788,11 +788,11 @@ package ca.turbulent.media
 		protected var _fullscreenRectangle						:Rectangle;
 		protected var _fullscreenMode							:String				= Pyro.FS_MODE_SOFTWARE;
 		protected var _hasCloseCaptions							:Boolean			= false;
-		protected var _highSpeedBufferTable						:BufferTimeTable	= new BufferTimeTable(1, 2, 15);
+		protected var _highSpeedBufferTable						:BufferTimeTable	= new BufferTimeTable(1, 2, 10);
 		protected var _metadata									:Object				= new Object();
 		protected var _hAlignMode								:String 			= Pyro.ALIGN_HORIZONTAL_CENTER;
-		protected var _lowSpeedBufferTable						:BufferTimeTable	= new BufferTimeTable(12, 12, 30);
-		protected var _mediumSpeedBufferTable					:BufferTimeTable	= new BufferTimeTable(8, 8, 16);
+		protected var _lowSpeedBufferTable						:BufferTimeTable	= new BufferTimeTable(3, 3, 20);
+		protected var _mediumSpeedBufferTable					:BufferTimeTable	= new BufferTimeTable(10, 10, 16);
 		protected var _metadataCheckOver						:Boolean			= false;
 		protected var _metadataReceived							:Boolean			= false;
 		protected var _muted									:Boolean			= false;
@@ -804,7 +804,7 @@ package ca.turbulent.media
 		protected var _requestedHeight							:Number				= 0;
 		protected var _ready									:Boolean 			= false;
 		protected var _scaleMode								:String				= Pyro.SCALE_MODE_WIDTH_BASED;	
-		protected var _serverType								:String 			= Pyro.SERVER_TYPE_LATEST;
+		protected var _serverType								:String 			= Pyro.SERVER_TYPE_UNDER_FMS_3_5;
 		protected var _smoothing								:Boolean			= false;
 		protected var _stageEventMechanics						:String				= Pyro.STAGE_EVENTS_MECHANICS_ALL_ON;
 		protected var _src										:String				= "";
@@ -832,6 +832,7 @@ package ca.turbulent.media
 		protected var defaultVideoHeight						:Number				= 280;
 		protected var delayedPlayTimer							:Timer				= new Timer(100, 0);
 		protected var dying										:Boolean			= false;
+		protected var firstRun									:Boolean 			= true;
 		protected var flushed									:Boolean			= false;
 		protected var fullscreenMemoryObject					:Object				= new Object();
 		protected var initTimer									:Timer				= new Timer(10, 1);
@@ -1099,7 +1100,7 @@ package ca.turbulent.media
 						}
 					}
 					
-					_timeOffset = localDetails.startTime;
+					_timeOffset = localDetails.startTime >=0 ? localDetails.startTime : 0;
 					
 					reset();
 					_nStream.play(fileURL);
@@ -1120,7 +1121,7 @@ package ca.turbulent.media
 				{
 					reset();
 					setStatus(Pyro.STATUS_CONNECTING);
-					_timeOffset = localDetails.startTime;
+					_timeOffset = localDetails.startTime >=0 ? localDetails.startTime : 0;
 					_src = fileURL;
 					delayedPlay = true;
 					this.initConnection(_src);
@@ -1134,6 +1135,7 @@ package ca.turbulent.media
 			
 			close();
 			_urlDetails = new URLDetails(urlString, useDirectFilePath, forceMP4Extension, streamNameHasExtension, serverType);
+			this.dispatchEvent(new PyroEvent(PyroEvent.URL_PARSED, bubbleEvents, cancelableEvents));
 			
 			if (_nConnection)
 			{
@@ -1163,7 +1165,7 @@ package ca.turbulent.media
 				case undefined:
 				default:
 				
-				if (urlDetails.streamName.indexOf("?start=") > 0)
+				if (urlDetails.startTime >= 0)
 					_streamType = Pyro.STREAM_TYPE_PROXIED_PROGRESSIVE; 
 				else
 					_streamType = Pyro.STREAM_TYPE_PROGRESSIVE;
@@ -1312,6 +1314,8 @@ package ca.turbulent.media
 	                			
 	                			case Pyro.CONNECTION_SPEED_LOW:
 		                			_bufferEmptiedOccurences = 0;
+		                			_lowSpeedBufferTable.singleTresholdBufferTime += _lowSpeedBufferTable.singleTresholdBufferTime*.1;
+		                			_lowSpeedBufferTable.dualTresholdStartBufferTime += _lowSpeedBufferTable.dualTresholdStartBufferTime*.1;
 		                			this.dispatchEvent(new PyroEvent(PyroEvent.INSUFFICIENT_BANDWIDTH, bubbleEvents, cancelableEvents));	
 	                			break;
 	                		}
@@ -1331,31 +1335,48 @@ package ca.turbulent.media
                	break;
                 
                 case "NetStream.Buffer.Full":
+               	if (firstRun)
+           		{
+           			if (autoPlay)
+           			{
+           				this.setStatus(Pyro.STATUS_PLAYING);
+           				firstRun = false;
+           			}	
+           		}
+               	
                	dispatchEvent(new PyroEvent(PyroEvent.BUFFER_FULL, bubbleEvents, cancelableEvents));
                
                	var currentBufferTable:BufferTimeTable;
                	if (checkBandwidth && !bandwidthCheckDone) 
                	{	
-               		var connTime:Number = getTimer() - startTime;
+               		
+               		var userBandwidth:Number;
+	               	var connTime:Number = getTimer() - startTime;
+	             	userBandwidth = (bufferLength * (streamDataRate) / (connTime/1000));
+	             		
+               		/* var connTime:Number = getTimer() - startTime;
                		var userBandwidth:Number = ((1000 * _nStream.bytesLoaded) / connTime) / 1024;
                	
-               		var buffer:Number = getBandwidth(_duration, streamDataRate, userBandwidth);
+               		var buffer:Number = getBandwidth(_duration, streamDataRate, userBandwidth); */
                	
                		
-               		if (userBandwidth < 10)
+               		if (userBandwidth <= 60)
 					{
 						_connectionSpeed = Pyro.CONNECTION_SPEED_LOW;
 						currentBufferTable = _lowSpeedBufferTable;
+						bufferEmptiedMaxOccurences = 3;
 					} 
 					else
 					{
-						if (userBandwidth >= 10 && userBandwidth < 25)
+						if (userBandwidth > 60 && userBandwidth <= 120)
 						{
+							bufferEmptiedMaxOccurences = 2;
 							currentBufferTable = _mediumSpeedBufferTable;
 							_connectionSpeed = Pyro.CONNECTION_SPEED_MEDIUM;	
 						}
-						else
+						else if (userBandwidth > 120)
 						{
+							bufferEmptiedMaxOccurences = 1;
 							currentBufferTable = _highSpeedBufferTable;
 							_connectionSpeed = Pyro.CONNECTION_SPEED_HIGH;
 						}
@@ -1370,7 +1391,7 @@ package ca.turbulent.media
                	}
                	
                	if (this.bufferingMode == Pyro.BUFFERING_MODE_DUAL_TRESHOLD)
-               		 _nStream.bufferTime = _dualStartBufferTime
+               		 _nStream.bufferTime = _dualStartBufferTime;
                		    
                	break;
                 
@@ -2185,7 +2206,7 @@ package ca.turbulent.media
 		{
 			if (occurenceCount < 0)
 			{
-				_bufferEmptiedMaxOccurences = 2;
+				_bufferEmptiedMaxOccurences = 1;
 			}
 			else if (occurenceCount > 10)
 			{
@@ -2540,7 +2561,7 @@ package ca.turbulent.media
 		/**
 		 * 
 		 * @return 
-		 * The current stream's loaded bytes ratio. 
+		 * The current stream's loaded bytes ratio for progressives and a time+bufferLength on duration proportion for rtmps. 
 		 * Based on 1. 0 beeing not loaded at all. 1 is fully loaded.
 		 * Usefull for visual progressBars, combined with or tied to scaleX or scaleY, 
 		 * @see #bytesLoaded
@@ -2550,11 +2571,18 @@ package ca.turbulent.media
 		{
 			if (_nStream != null)
 			{
-				if (_nStream.bytesLoaded && _nStream.bytesTotal)
-					return _nStream.bytesLoaded / _nStream.bytesTotal; 
+				if (this.streamType == Pyro.STREAM_TYPE_PROGRESSIVE || this.streamType == Pyro.STREAM_TYPE_PROXIED_PROGRESSIVE)
+				{
+					if (_nStream.bytesLoaded && _nStream.bytesTotal)
+						return _nStream.bytesLoaded / _nStream.bytesTotal; 
+					else
+						return 0;
+				}
 				else
-					return 0;
-			}
+				{
+					return ((time+bufferLength) / duration);		
+				}
+			}	
 			else
 			{
 				return 0;
@@ -3129,6 +3157,7 @@ internal class URLDetails
 	public var streamName			:String = "";
 	public var portNumber			:String = ""; 
 	public var wrappedURL			:String = "";
+	public var extraParams			:Object = new Object();
 	
 	public function URLDetails(url:String, useDirectFilePath:Boolean=false, forceMP4Extension:Boolean=true, hasExtension:Boolean=true, serverType:String="serverTypeUnderFMS_3_5"):void
 	{
@@ -3143,23 +3172,80 @@ internal class URLDetails
         portNumber			= info.portNumber;
         wrappedURL			= info.wrappedURL;
         streamName			= info.streamName;
-        startTime			= info.startTime;
+        startTime			= info.extraParams.startTime;
+        extraParams			= info.extraParams;
         nConnURL			= protocol + ((serverName == null) ? "" : "/" + serverName + ((portNumber == null) ? "" : (":" + portNumber)) + "/") + ((wrappedURL == null) ? "" : wrappedURL + "/") + appName;
         
-        
-        /* if (!portNumber && portNumber != "")
-        	nConnURL			= protocol+"/"+serverName+"/"+appName;
-        else
-        	nConnURL			= protocol+"/"+serverName+":"+portNumber+"/"+appName+"/"; 
-    */
 	}
 	
-	public static function parseURL(url:String, useDirectFilePath:Boolean=false, forceMP4Extension:Boolean=true, hasExtension:Boolean=true, serverType:String="serverTypeUnderFMS_3_5"):Object 
+	public static function parseURL(url:String, useDirectFilePath:Boolean=false, forceMP4Extension:Boolean=true, hasExtension:Boolean=true, FMSServerType:String="serverTypeUnderFMS_3_5"):Object 
 	{ 
-		var startIndex:int = 0;
-		var endIndex:int = url.indexOf(":/", startIndex);
 		var parseResults:Object = new Object();
 		
+		var serverType:String = FMSServerType;
+		 
+		parseResults.extraParams = URLDetails.getExtraURLParams(url);
+		
+		var p:Object = parseResults.extraParams;
+		
+		if (p.version && p.version != "")
+		{
+			if (p.version == Pyro.SERVER_TYPE_UNDER_FMS_3_5 || p.version == Pyro.SERVER_TYPE_LATEST || p.version==Pyro.SERVER_TYPE_NONE)
+			{
+				serverType = p.version;
+			}
+			else if (p.version == "FMS35" || p.version.toLowerCase() == "latest" || p.version.toLowerCase() == "FMS_35")
+			{
+				serverType = Pyro.SERVER_TYPE_LATEST;
+			}
+			else if (p.version == "FMSUNDER35" || p.version == "FMS_UNDER_35")
+			{
+				serverType = Pyro.SERVER_TYPE_UNDER_FMS_3_5;
+			}
+		}
+		
+		if (p.serverType && p.serverType != "")
+		{
+			if (p.serverType == Pyro.SERVER_TYPE_UNDER_FMS_3_5 || p.serverType == Pyro.SERVER_TYPE_LATEST || p.serverType==Pyro.SERVER_TYPE_NONE)
+			{
+				serverType = p.serverType;
+			}
+			else if (p.serverType == "FMS35" || p.serverType.toLowerCase() == "latest" || p.serverType.toLowerCase() == "FMS_35")
+			{
+				serverType = Pyro.SERVER_TYPE_LATEST;
+			}
+			else if (p.serverType == "FMSUNDER35" || p.serverType == "FMS_UNDER_35")
+			{
+				serverType = Pyro.SERVER_TYPE_UNDER_FMS_3_5;
+			}
+		}
+		
+		if (url.indexOf("?") > 0)
+		{
+			var tempURL:String = url.substring(0, url.indexOf("?"));
+			var hasArguments:Boolean = false;
+			var args:String = "";
+			for (var e:String in p)
+			{
+				if (e != "serverType" && e != "version" && (e == "startTime" && Number(p[e]) >= 0))
+				{
+					if (hasArguments) 
+						args+="&"; 
+					 else
+					 	args += "?";
+					 	
+					hasArguments = true;
+					args+= (e+"="+p[e]);
+				}
+			}
+			
+			tempURL += args;
+			url = tempURL;
+		}
+		
+		var startIndex:int = 0;
+		var endIndex:int = url.indexOf(":/", startIndex);
+
 		if (endIndex >= 0) 
 		{
 			endIndex += 2;
@@ -3339,23 +3425,52 @@ internal class URLDetails
 			parseResults.serverName = ""; 
         	parseResults.isRTMP	= false; 
         	parseResults.wrappedURL	= "";
-        	parseResults.startTime = 0;			
 			parseResults.nConnURL = "";
-			startIndex = url.indexOf("start=");			
+			parseResults.extraParams = p;
+			parseResults.startTime =  p['startTime'];
 			
-			if (startIndex > 0)
-			{
-				startIndex += 6;
-				parseResults.startTime = Number(url.substring(startIndex));
-			}
-			else
-			{
-				parseResults.startTime = 0;	
-			}
 		}	
 		return parseResults;
 	}
-}	
+	
+	public static function getExtraURLParams(url:String):Object
+	{
+		var parsedParams:Object = new Object();
+		parsedParams['startTime'] = -1;
+		
+		var parsedArray:Array = new Array();
+		
+		var paramString:String = "";
+		var startIndex:Number = url.indexOf("?");
+		
+		if (startIndex > 0)
+		{
+			paramString = url.substring(startIndex+1);
+			parsedArray = paramString.split("&");
+			var valuePair:Array;
+			
+			if (parsedArray.length > 0)
+			{
+				for (var i:Number=0; i<parsedArray.length; ++i)
+				{
+					valuePair = parsedArray[i].split("=");
+					parsedParams[valuePair[0]] = valuePair[1];
+				}
+			}
+			else
+			{
+				valuePair = paramString.split("=");
+				parsedParams[valuePair[0]] = valuePair[1];
+			}
+			
+			parsedParams['startTime'] = Number(parsedParams['startTime']);
+			
+		}
+		
+		return parsedParams;
+	}
+}
+	
 	
 
 internal class BufferTimeTable
@@ -3369,8 +3484,7 @@ internal class BufferTimeTable
 		singleTresholdBufferTime = singleBufferTime;
 		dualTresholdStartBufferTime = dualStartBufferTime;
 		dualTresholdStreamBufferTime = dualStreamBufferTime;
-	}
-			 
+	}		 
 }
 
 import flash.system.Capabilities;
@@ -3448,7 +3562,5 @@ internal class XMPProxy
         	var cueXML:XML = cuePointXMLList[i];
         	cuePoints.push({name:cueXML.@xmpDM::name, type:cueXML.@xmpDM::cuePointType, time:cueXML.@xmpDM::startTime/cueFrameRate});
         } 
-		
-		
 	}	
 }
