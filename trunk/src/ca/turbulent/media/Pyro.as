@@ -47,10 +47,13 @@ package ca.turbulent.media
 	
 	/**
 	* Pyro
-	* Version 1.1.5
+	* Version 1.2.0
 	*
-	*  @author Eric Poirier 2008-2009, epoirier@turbulent.ca || nibman@gmail.com
-	* 	  
+	*  @author Eric Poirier 2008-2009, e@gronour.com || epoirier@turbulent.ca || nibman@gmail.com
+	*	http://gronour.com 	
+	*	http://agit8.turubulent.ca 
+	*   http://turbulent.ca 
+	*   
 	*  	@description 
 	* 	ABOUT PYRO flash video control API.
 	*  	Methods set for handling and displaying video files thru the Flash player.
@@ -603,7 +606,7 @@ package ca.turbulent.media
 		/**
 		*	Indicates main pyro version beeing used. 
 		*/		
-		public static const VERSION								:String 			= "1.1.5";
+		public static const VERSION								:String 			= "1.2.0";
 		/*
 		 ------------------------------------------------------------------------------------------------ >>
 		 ------------------------------------------------------------------------------------------------ >>
