@@ -47,7 +47,7 @@ package ca.turbulent.media
 	
 	/**
 	* Pyro
-	* Version 1.2.0
+	* Version 1.2.1
 	*
 	*  @author Eric Poirier 2008-2009, e@gronour.com || epoirier@turbulent.ca || nibman@gmail.com
 	*	http://gronour.com 	
@@ -606,7 +606,7 @@ package ca.turbulent.media
 		/**
 		*	Indicates main pyro version beeing used. 
 		*/		
-		public static const VERSION								:String 			= "1.2.0";
+		public static const VERSION								:String 			= "1.2.1";
 		/*
 		 ------------------------------------------------------------------------------------------------ >>
 		 ------------------------------------------------------------------------------------------------ >>
@@ -1205,7 +1205,6 @@ package ca.turbulent.media
 				
 				case Pyro.STREAM_TYPE_TRUE_STREAM:
 				_timeOffset = 0;
-				trace("_neConnectionConnect "+urlDetails.nConnURL);
 				_nConnection.connect(urlDetails.nConnURL); 
 				break;
 				
@@ -1268,7 +1267,6 @@ package ca.turbulent.media
        	 			break;
        	 			
        	 			case Pyro.STREAM_TYPE_TRUE_STREAM:
-       	 			trace("playing " + urlDetails.streamName);
        	 			play(urlDetails.streamName);
        	 			adjustSize(); 
        	 			break;
@@ -1532,6 +1530,10 @@ package ca.turbulent.media
 				seek(0)
 				pause();	
 			}
+			
+			if (!autoPlay && !_metadataReceived)
+				seek(0);
+				
 			_metadataReceived = true;
 			_metadata = info;	
 			if (rest) { _metadata['rest'] = rest; }
@@ -1625,7 +1627,6 @@ package ca.turbulent.media
        	 		else
 				{
 					videoPropsValid = true;
-					trace("force resize from adjust size with metaInfo")
 					forceResize(metadata['width'], metadata['height'], maintainAspectRatio, scaleMode);		
 				}
 			}
@@ -1658,7 +1659,7 @@ package ca.turbulent.media
 		{
 			if (videoWidth <= _requestedWidth)
 			{
-				trace("Align = "+hAlignMode + " videoWidth="+video.width);
+				
 				switch (hAlignMode)
 				{
 					case Pyro.ALIGN_HORIZONTAL_CENTER:
@@ -1732,7 +1733,7 @@ package ca.turbulent.media
 		
 		protected function forceResize(w:Number, h:Number, aspectRatio:Boolean, sMode:String):void
 		{
-			trace("force resize");
+			
 			var localWidth:Number = w;
 			var localHeight:Number = h;
 			var scaleFactor:Number;
@@ -3111,7 +3112,6 @@ package ca.turbulent.media
 			flvBitrate > bandwidth ? bt = Math.ceil(flvLength - flvLength/(flvBitrate/bandwidth)) : bt = 0;	
 			bt += padding;
 			
-			trace("bt before round"+String(bt));
 			if(bt > 30) bt = 20;
 			
 			return bt;
