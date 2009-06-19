@@ -16,6 +16,7 @@ package ca.turbulent.media.events
 		public static const METADATA_RECEIVED				:String				= "metadataReceivedEvent";
 		public static const MUTED							:String				= "mutedEvent";
 		public static const NEW_STREAM_INIT					:String				= "newStreamInitEvent";
+		public static const ON_LAST_SECOND					:String 			= "onLastSecondEvent";
 		public static const PAUSED							:String				= "streamPausedEvent";
 		public static const SEEKED							:String				= "streamSeekedEvent";	
 		public static const SIZE_UPDATE						:String				= "sizeChangedEvent";
