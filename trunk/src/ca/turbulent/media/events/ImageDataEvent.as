@@ -23,7 +23,5 @@ package ca.turbulent.media.events
 			image = new Sprite();
 			image.addChild(imageloader);
 		}
-
-	
 	}
 }

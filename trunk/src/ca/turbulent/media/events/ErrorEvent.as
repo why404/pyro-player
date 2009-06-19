@@ -4,12 +4,11 @@ package ca.turbulent.media.events
 
 	public class ErrorEvent extends Event
 	{
-		
-		
 		public static const CONNECTION_ERROR				:String				= "connectionErrorEvent";
 		public static const ERROR							:String				= "errorEvent";
 		public static const FILE_NOT_FOUND_ERROR			:String				= "streamNotFoundErrorEvent";
 		public static const SECURITY_ERROR					:String 			= "securityErrorEvent";
+		
 		
 		public var errorObject								:Object;
 		public var errorMessage								:String				= ""; 

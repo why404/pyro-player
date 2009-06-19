@@ -1513,6 +1513,11 @@ package ca.turbulent.media
 			dispatchEvent(new CuePointEvent(CuePointEvent.CUE_POINT_RECEIVED, infoObject, bubbleEvents, cancelableEvents));
 		}
 		
+		public function onLastSecond(evt:*=null):void
+		{
+			dispatchEvent(new PyroEvent(PyroEvent.ON_LAST_SECOND, bubbleEvents, cancelableEvents));
+		}
+		
 		/**
 		 * 
 		 * DO NOT CALL onMetaData, IT IS KEPT PUBLIC TO PREVENT ERROR DISPATCHING BY THE NETSTREAM. 
