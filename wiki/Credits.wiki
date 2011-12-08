@@ -5,7 +5,6 @@ Pyro has been developped by Eric Poirier<br>
 http://gronour.com<br>
 
 nibman@gmail.com<br> 
-epoirier@turbulent.ca<br>
 e@gronour.com<br> 
 <p>
 
